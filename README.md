@@ -21,7 +21,7 @@ This project is temporarily hosted on the following services:
 
 - Frontend - [Vercel](https://vercel.com/)
 - Backend - [Render](https://render.com/)
-- BD - [Supabase](https://supabase.com/)
+- DB - [Supabase](https://supabase.com/)
 
 ## Run locally
 
