@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Add a study resource for other students to find.">
+  <title>Add a resource | Resource Finder</title>
+  <link rel="stylesheet" href="styles.css"><script src="config.js" defer></script><script src="upload.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to form</a>
+  <header class="site-header"><div class="header-inner"><a class="brand" href="index.html">Resource Finder</a><nav aria-label="Main navigation"><a href="index.html">Browse</a><a href="bookmarks.html">Bookmarks</a><a href="upload.html" aria-current="page">Add a resource</a></nav></div></header>
+  <main id="main-content" class="page-shell form-page">
+    <h1 class="page-title">Add a resource</h1>
+    <form id="resource-form" class="panel resource-form" novalidate>
+      <div id="form-message" class="notice" role="alert" tabindex="-1" hidden></div>
+      <div class="field"><label for="title">Resource title <span aria-hidden="true">*</span></label><input id="title" name="title" required minlength="2" maxlength="180" aria-describedby="title-error"><p id="title-error" class="field-error" hidden></p></div>
+      <div class="field"><label for="description">Description <span aria-hidden="true">*</span></label><textarea id="description" name="description" rows="4" required minlength="2" maxlength="3000" aria-describedby="description-error"></textarea><p id="description-error" class="field-error" hidden></p></div>
+      <div class="form-grid">
+        <div class="field"><label for="subject">Subject <span aria-hidden="true">*</span></label><input id="subject" name="subject" list="subjects-list" required minlength="2" maxlength="120" aria-describedby="subject-error"><datalist id="subjects-list"></datalist><p id="subject-error" class="field-error" hidden></p></div>
+        <div class="field"><label for="semester">Semester <span aria-hidden="true">*</span></label><select id="semester" name="semester" required aria-describedby="semester-error"><option value="">Choose semester</option></select><p id="semester-error" class="field-error" hidden></p></div>
+        <div class="field"><label for="unit">Unit <span aria-hidden="true">*</span></label><select id="unit" name="unit" required aria-describedby="unit-error"><option value="">Choose unit</option></select><p id="unit-error" class="field-error" hidden></p></div>
+        <div class="field"><label for="resource_type">Resource type <span aria-hidden="true">*</span></label><select id="resource_type" name="resource_type" required aria-describedby="resource_type-error"><option value="">Choose type</option></select><p id="resource_type-error" class="field-error" hidden></p></div>
+      </div>
+      <div class="field"><label for="url-kind">Resource location</label><select id="url-kind"><option value="web">Website link</option><option value="file">Local file path</option></select></div>
+      <div class="field"><label for="url">Resource location <span aria-hidden="true">*</span></label><input id="url" name="url" type="text" inputmode="url" placeholder="https://..." required maxlength="1000" aria-describedby="url-hint url-error"><p id="url-hint" class="field-hint">Use a link starting with https:// or http://.</p><p id="url-error" class="field-error" hidden></p></div>
+      <div class="form-actions"><button class="button" type="submit">Add resource</button><a class="button button-secondary" href="index.html">Cancel</a></div>
+    </form>
+  </main>
+</body>
+</html>
