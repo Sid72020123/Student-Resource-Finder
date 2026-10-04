@@ -4,8 +4,9 @@ from urllib.parse import urlparse
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-
-ResourceType = Literal["Notes", "Question Paper", "Assignment", "Reference", "Video", "Other"]
+ResourceType = Literal[
+    "Notes", "Question Paper", "Assignment", "Reference", "Video", "Other"
+]
 
 
 class ResourceCreate(BaseModel):

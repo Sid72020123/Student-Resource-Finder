@@ -58,7 +58,11 @@ def list_resources(
     query = select(Resource).options(joinedload(Resource.subject))
     if search and search.strip():
         term = f"%{search.strip()}%"
-        query = query.where(Resource.title.ilike(term) | Resource.description.ilike(term) | Resource.subject.has(Subject.name.ilike(term)))
+        query = query.where(
+            Resource.title.ilike(term)
+            | Resource.description.ilike(term)
+            | Resource.subject.has(Subject.name.ilike(term))
+        )
     if subject:
         query = query.join(Resource.subject).where(Subject.name == subject)
     if semester is not None:
@@ -67,19 +71,29 @@ def list_resources(
         query = query.where(Resource.unit == unit)
     if type:
         query = query.where(Resource.resource_type == type)
-    resources = db.scalars(query.order_by(Resource.created_at.desc(), Resource.id)).unique().all()
+    resources = (
+        db.scalars(query.order_by(Resource.created_at.desc(), Resource.id))
+        .unique()
+        .all()
+    )
     return [resource_output(resource) for resource in resources]
 
 
 @app.get("/api/resources/{resource_id}", response_model=ResourceOut)
 def get_resource(resource_id: int, db: Session = Depends(get_db)):
-    resource = db.scalar(select(Resource).options(joinedload(Resource.subject)).where(Resource.id == resource_id))
+    resource = db.scalar(
+        select(Resource)
+        .options(joinedload(Resource.subject))
+        .where(Resource.id == resource_id)
+    )
     if not resource:
         raise HTTPException(status_code=404, detail="Resource not found.")
     return resource_output(resource)
 
 
-def save_resource(data: ResourceCreate, db: Session, resource: Resource | None = None) -> Resource:
+def save_resource(
+    data: ResourceCreate, db: Session, resource: Resource | None = None
+) -> Resource:
     subject = db.scalar(select(Subject).where(Subject.name == data.subject))
     if subject is None:
         subject = Subject(name=data.subject, code="PENDING")
@@ -101,13 +115,17 @@ def save_resource(data: ResourceCreate, db: Session, resource: Resource | None =
     return resource
 
 
-@app.post("/api/resources", response_model=ResourceOut, status_code=status.HTTP_201_CREATED)
+@app.post(
+    "/api/resources", response_model=ResourceOut, status_code=status.HTTP_201_CREATED
+)
 def create_resource(data: ResourceCreate, db: Session = Depends(get_db)):
     return resource_output(save_resource(data, db))
 
 
 @app.put("/api/resources/{resource_id}", response_model=ResourceOut)
-def update_resource(resource_id: int, data: ResourceCreate, db: Session = Depends(get_db)):
+def update_resource(
+    resource_id: int, data: ResourceCreate, db: Session = Depends(get_db)
+):
     resource = db.get(Resource, resource_id)
     if not resource:
         raise HTTPException(status_code=404, detail="Resource not found.")
@@ -126,16 +144,27 @@ def delete_resource(resource_id: int, db: Session = Depends(get_db)):
 
 @app.get("/api/subjects", response_model=list[SubjectOut])
 def list_subjects(db: Session = Depends(get_db)):
-    return [{"id": subject.id, "name": subject.name, "code": subject.code}
-            for subject in db.scalars(select(Subject).order_by(Subject.name)).all()]
+    return [
+        {"id": subject.id, "name": subject.name, "code": subject.code}
+        for subject in db.scalars(select(Subject).order_by(Subject.name)).all()
+    ]
 
 
 @app.get("/api/bookmarks", response_model=list[ResourceOut])
-def list_bookmarks(user_id: str = Query(min_length=1, max_length=80), db: Session = Depends(get_db)):
-    resources = db.scalars(
-        select(Resource).join(Bookmark).options(joinedload(Resource.subject))
-        .where(Bookmark.user_id == user_id).order_by(Bookmark.created_at.desc())
-    ).unique().all()
+def list_bookmarks(
+    user_id: str = Query(min_length=1, max_length=80), db: Session = Depends(get_db)
+):
+    resources = (
+        db.scalars(
+            select(Resource)
+            .join(Bookmark)
+            .options(joinedload(Resource.subject))
+            .where(Bookmark.user_id == user_id)
+            .order_by(Bookmark.created_at.desc())
+        )
+        .unique()
+        .all()
+    )
     return [resource_output(resource) for resource in resources]
 
 
@@ -143,7 +172,11 @@ def list_bookmarks(user_id: str = Query(min_length=1, max_length=80), db: Sessio
 def add_bookmark(data: BookmarkCreate, db: Session = Depends(get_db)):
     if db.get(Resource, data.resource_id) is None:
         raise HTTPException(status_code=404, detail="Resource not found.")
-    bookmark = db.scalar(select(Bookmark).where(Bookmark.resource_id == data.resource_id, Bookmark.user_id == data.user_id))
+    bookmark = db.scalar(
+        select(Bookmark).where(
+            Bookmark.resource_id == data.resource_id, Bookmark.user_id == data.user_id
+        )
+    )
     if bookmark is None:
         db.add(Bookmark(resource_id=data.resource_id, user_id=data.user_id))
         db.commit()
@@ -151,8 +184,16 @@ def add_bookmark(data: BookmarkCreate, db: Session = Depends(get_db)):
 
 
 @app.delete("/api/bookmarks/{resource_id}", status_code=status.HTTP_204_NO_CONTENT)
-def remove_bookmark(resource_id: int, user_id: str = Query(min_length=1, max_length=80), db: Session = Depends(get_db)):
-    bookmark = db.scalar(select(Bookmark).where(Bookmark.resource_id == resource_id, Bookmark.user_id == user_id))
+def remove_bookmark(
+    resource_id: int,
+    user_id: str = Query(min_length=1, max_length=80),
+    db: Session = Depends(get_db),
+):
+    bookmark = db.scalar(
+        select(Bookmark).where(
+            Bookmark.resource_id == resource_id, Bookmark.user_id == user_id
+        )
+    )
     if bookmark:
         db.delete(bookmark)
         db.commit()

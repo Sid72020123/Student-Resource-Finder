@@ -1,48 +1,81 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Find and bookmark useful study resources shared by students.">
-  <title>Resource Finder</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="config.js" defer></script>
-  <script src="app.js" defer></script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to resources</a>
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="index.html" aria-label="Resource Finder home">Resource Finder</a>
-      <nav aria-label="Main navigation">
-        <a href="index.html" aria-current="page">Browse</a>
-        <a href="bookmarks.html">Bookmarks</a>
-        <a class="button button-small" href="upload.html">Add a resource</a>
-      </nav>
-    </div>
-  </header>
-  <main id="main-content" class="page-shell">
-    <h1 class="page-title" id="page-title">Resources</h1>
-    <section class="panel filters" aria-label="Search and filter resources">
-      <div class="search-row">
-        <label class="sr-only" for="search">Search resources</label>
-        <input id="search" name="search" type="search" placeholder="Search by title, subject or keyword" autocomplete="off">
-        <button id="clear-filters" class="button button-secondary" type="button">Clear filters</button>
-      </div>
-      <div class="filter-grid">
-        <div><label for="subject-filter">Subject</label><select id="subject-filter"><option value="">All subjects</option></select></div>
-        <div><label for="semester-filter">Semester</label><select id="semester-filter"><option value="">All semesters</option></select></div>
-        <div><label for="unit-filter">Unit</label><select id="unit-filter"><option value="">All units</option></select></div>
-        <div><label for="type-filter">Resource type</label><select id="type-filter"><option value="">All types</option></select></div>
-      </div>
-      <p id="result-count" class="result-count" aria-live="polite"></p>
-    </section>
-    <section class="resource-section" aria-labelledby="resources-heading">
-      <div class="section-heading"><h2 id="resources-heading">All resources</h2><details class="keyboard-help"><summary>Keyboard help</summary><p>Press <kbd>/</kbd> to focus search.</p></details></div>
-      <div id="notice" class="notice" role="status" hidden></div>
-      <div id="resource-list" class="resource-list" aria-busy="true"></div>
-      <p id="empty-state" class="empty-state" hidden>No resources match these filters. Try changing your search.</p>
-    </section>
-  </main>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Find and bookmark useful study resources shared by students." />
+        <title>Resource Finder</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script src="config.js" defer></script>
+        <script src="app.js" defer></script>
+    </head>
+    <body>
+        <a class="skip-link" href="#main-content">Skip to resources</a>
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="index.html" aria-label="Resource Finder home">Resource Finder</a>
+                <nav aria-label="Main navigation">
+                    <a href="index.html" aria-current="page">Browse</a>
+                    <a href="bookmarks.html">Bookmarks</a>
+                    <a class="button button-small" href="upload.html">Add a resource</a>
+                </nav>
+            </div>
+        </header>
+        <main id="main-content" class="page-shell">
+            <h1 class="page-title" id="page-title">Resources</h1>
+            <section class="panel filters" aria-label="Search and filter resources">
+                <div class="search-row">
+                    <label class="sr-only" for="search">Search resources</label>
+                    <input
+                        id="search"
+                        name="search"
+                        type="search"
+                        placeholder="Search by title, subject or keyword"
+                        autocomplete="off" />
+                    <button id="clear-filters" class="button button-secondary" type="button">Clear filters</button>
+                </div>
+                <div class="filter-grid">
+                    <div>
+                        <label for="subject-filter">Subject</label
+                        ><select id="subject-filter">
+                            <option value="">All subjects</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="semester-filter">Semester</label
+                        ><select id="semester-filter">
+                            <option value="">All semesters</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="unit-filter">Unit</label
+                        ><select id="unit-filter">
+                            <option value="">All units</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="type-filter">Resource type</label
+                        ><select id="type-filter">
+                            <option value="">All types</option>
+                        </select>
+                    </div>
+                </div>
+                <p id="result-count" class="result-count" aria-live="polite"></p>
+            </section>
+            <section class="resource-section" aria-labelledby="resources-heading">
+                <div class="section-heading">
+                    <h2 id="resources-heading">All resources</h2>
+                    <details class="keyboard-help">
+                        <summary>Keyboard help</summary>
+                        <p>Press <kbd>/</kbd> to focus search.</p>
+                    </details>
+                </div>
+                <div id="notice" class="notice" role="status" hidden></div>
+                <div id="resource-list" class="resource-list" aria-busy="true"></div>
+                <p id="empty-state" class="empty-state" hidden>
+                    No resources match these filters. Try changing your search.
+                </p>
+            </section>
+        </main>
+    </body>
 </html>
